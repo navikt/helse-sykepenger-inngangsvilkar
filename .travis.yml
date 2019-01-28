@@ -1,0 +1,16 @@
+sudo: required
+language: java
+jdk:
+- openjdk11
+before_install:
+- rm "${JAVA_HOME}/lib/security/cacerts"
+- ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+script:
+- |
+  set -e
+  if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
+     ./mvnw clean package
+  fi
+notifications:
+  slack:
+    secure: nwQtLuopCrl8ZJ1W+GD8VxpLbHSY+1xIEwterCMEhG7tHqTMdfGv2CpuhWFrV8oLKnuFozCXJGi2YzUiQk27bFb+zDQCxRQAWqUcynq/zoQV+1UqIGX/aHGb9o9GlyUS+vH0xa0MsgytyGyBJ2cqPVW3bCil/BkaPCu/g16RZf6zV/o20Rxbl3kAjQk0eTjXPqdPKQsV7nMDn8ObKTowiw94M/g0kHsXI9etuwvakQ4Sxmhz9XUKK2abn8RCiPYdhIAkcINa6rSkn/OVqNZQJqgPwy0Ra/9f2rHsiH+YDq48yFmzOROw8rrMy35AKKUPbvTE2Xu6PlnSQVa5R80124i8pf32Pt6yJ2ehDWV8ADWyWoxWruH6E+3UgTBWD/Apx7HzchNyRbnaM75xB8BaNiWecIQdnIpEPHYwd1Of7UrSdCkm8ADEZq5CzogsX0thKOlIgkHxcAJRwzAT+6m6l7qYXHUU/aV0SEU0L7dtkLCfROTU57+vqTjs++hEd+zx+/bZMXyWky1IMl9JL2aaAvgUuube3P6vHRP6dHQip9kRPm+hpkkHvkhNir75y0wfXifiHpfSTp1McjZnP1I+5hMIBALxpEs6abpXbNHvwa16+a5CSlJI0Cj44uz7jD+IJwHiBKGHw2ReYEmyjkWRcXaky0HSqNlJTapmNk3qIr0=
