@@ -13,15 +13,21 @@ private val kanskje = Spesifikasjon<Søknad>(
 
 val harVærtIArbeidIMinstFireUker = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
-   identitet = "§ 8-2.Opptjeningstid") { søknad -> søkerHarVærtIArbeid(søknad.førsteSykdomsdag, søknad.datoForAnsettelse) }
+   identitet = "§ 8-2 første ledd") { søknad -> søkerHarVærtIArbeid(søknad.førsteSykdomsdag, søknad.datoForAnsettelse) }
 
-val harOppfyltOpptjeningstid = harVærtIArbeidIMinstFireUker eller kanskje
+val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller kanskje).med(
+   beskrivelse = "Oppfyller søker krav om opptjeningstid?",
+   identitet = "§ 8-2"
+)
 
 val boddeINorgeISykdomsperioden = Spesifikasjon<Søknad>(
    beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
-   identitet = "§ 2-1.Personer som er bosatt i Norge") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
+   identitet = "§ 2-1 første ledd") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
 
-val harOppfyltMedlemskap = boddeINorgeISykdomsperioden eller kanskje
+val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller kanskje).med(
+   beskrivelse = "Oppfyller søker krav om medlemskap?",
+   identitet = "Kapittel 2. Medlemskap"
+)
 
 val harAndreYtelser = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker andre ytelser?",
@@ -31,9 +37,12 @@ val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).ell
 
 val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-   identitet = "§ 22-13.Frister for framsetting av krav – etterbetaling") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
+   identitet = "§ 22-13 tredje ledd") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
 
-val erKravetFremsattInnenFrist = erSendtInnenTreMåneder eller kanskje
+val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller kanskje).med(
+   beskrivelse = "Er kravet fremsatt innen frist?",
+   identitet = "§ 22-13"
+)
 
 val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger og erKravetFremsattInnenFrist) eller kanskje
 
