@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 private val kanskje = Spesifikasjon<Søknad>(
    beskrivelse = "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-   identitet = "") { søknad -> Evaluering.kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
+   identitet = "Ufullstendig informasjonsgrunnlag") { søknad -> Evaluering.kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
 
 val harVærtIArbeidIMinstFireUker = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
@@ -33,7 +33,10 @@ val harAndreYtelser = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker andre ytelser?",
    identitet = "") { søknad -> søkerHarAndreYtelser(søknad.ytelser) }
 
-val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(kanskje)
+val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(kanskje).med(
+   beskrivelse = "Har søker andre ytelser som ikke kan kombineres med sykepenger?",
+   identitet = "Forenkling av andre ytelser"
+)
 
 val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
