@@ -1,53 +1,69 @@
 package no.nav.helse
 
 import no.nav.nare.core.evaluations.Evaluering
+import no.nav.nare.core.evaluations.Evaluering.Companion.ja
+import no.nav.nare.core.evaluations.Evaluering.Companion.nei
 import no.nav.nare.core.specifications.Spesifikasjon
 import no.nav.nare.core.specifications.ikke
+import java.time.LocalDate
 
-private val kanskje = Spesifikasjon<Søknad>("inngangsvilkår", "har ingen") {
-   Evaluering.kanskje("vi vet ikke bedre")
-}
+private val kanskje = Spesifikasjon<Søknad>(
+   beskrivelse = "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
+   identitet = "") { søknad -> Evaluering.kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
 
-val yrkesaktiv = Spesifikasjon<Søknad>("inngangsvilkår", "kapittel 8 p 2") {
-   if (it.førsteSykdomsdag.minusDays(28) >= it.datoForAnsettelse) {
-      Evaluering.ja("du har jobbet <antall> dager")
-   } else {
-      Evaluering.nei("kanskje")
-   }
-}
+val harVærtIArbeidIMinstFireUker = Spesifikasjon<Søknad>(
+   beskrivelse = "Har søker vært i arbeid i minst fire uker?",
+   identitet = "§ 8-2.Opptjeningstid") { søknad -> søkerHarVærtIArbeid(søknad.førsteSykdomsdag, søknad.datoForAnsettelse) }
 
-val opptjening = yrkesaktiv eller kanskje
+val harOppfyltOpptjeningstid = harVærtIArbeidIMinstFireUker eller kanskje
 
-val medlemskap_borINorgeNå = Spesifikasjon<Søknad>("medlemskap", "kapittel 2") {
-   if (it.bostedLandISykdomsperiode == "Norge") {
-      Evaluering.ja("Du bor i Norge")
-   } else {
-      Evaluering.nei("du må bo i Norge")
-   }
-}
+val boddeINorgeISykdomsperioden = Spesifikasjon<Søknad>(
+   beskrivelse = "Oppholder søker seg i Norge?",
+   identitet = "§ 8-9.Opphold i Norge eller i utlandet") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
 
-val medlemskap = medlemskap_borINorgeNå.eller(kanskje)
+val erMedlemAvFolketrygden = boddeINorgeISykdomsperioden eller kanskje
 
-val ytelser_harAndreYtelser = Spesifikasjon<Søknad>("inngangsvilkår", "") {
-   if (it.ytelser.isEmpty()) {
-      Evaluering.nei("har ingen andre ytelser")
-   } else {
-      Evaluering.ja("har andre ytelser")
-   }
-}
+val harAndreYtelser = Spesifikasjon<Søknad>(
+   beskrivelse = "Har søker andre ytelser?",
+   identitet = "") { søknad -> søkerHarAndreYtelser(søknad.ytelser) }
 
-val ytelser = ikke(ytelser_harAndreYtelser).eller(kanskje)
+val ytelser = ikke(harAndreYtelser).eller(kanskje)
 
-val erSendtInnenTreMåneder = Spesifikasjon<Søknad>("er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden", "") {
-   val treMånederTilbake = it.søknadSendt.minusMonths(3).withDayOfMonth(1)
-
-   if (treMånederTilbake <= it.førsteDagSøknadGjelderFor && it.førsteDagSøknadGjelderFor <= it.søknadSendt) {
-      Evaluering.ja("søknaden er sendt tre måneder eller mindre etter første måned i søknadsperioden")
-   } else {
-      Evaluering.nei("søknad er sendt etter tre måneder etter første måned i søknadsperioden")
-   }
-}
+val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
+   beskrivelse = "er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
+   identitet = "") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
 
 val søknadSendtInnenforFrist = erSendtInnenTreMåneder eller kanskje
 
-val inngangsvilkår = (yrkesaktiv og medlemskap og ytelser og søknadSendtInnenforFrist) eller kanskje
+val inngangsvilkår = (harOppfyltOpptjeningstid og erMedlemAvFolketrygden og ytelser og søknadSendtInnenforFrist) eller kanskje
+
+fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
+   if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {
+      ja("søker har jobbet minst 28 dager")
+   } else {
+      nei("søker har jobbet mindre enn 28 dager")
+   }
+
+fun søkerBorINorge(bostedland: String) =
+   if (bostedland == "Norge") {
+      ja("Søker er bosatt i Norge.")
+   } else {
+      nei("Søker er ikke bostatt i Norge.")
+   }
+
+fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSøknadGjelderFor: LocalDate): Evaluering {
+   val treMånederTilbake = søknadSendt.minusMonths(3).withDayOfMonth(1)
+
+   return if (treMånederTilbake <= førsteDagSøknadGjelderFor && førsteDagSøknadGjelderFor <= søknadSendt) {
+      ja("søknaden er sendt tre måneder eller mindre etter første måned i søknadsperioden")
+   } else {
+      nei("søknad er sendt etter tre måneder etter første måned i søknadsperioden")
+   }
+}
+
+fun søkerHarAndreYtelser(ytelser: List<String>) =
+   if (ytelser.isEmpty()) {
+      nei("har ingen andre ytelser")
+   } else {
+      ja("har andre ytelser")
+   }

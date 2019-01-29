@@ -1,8 +1,5 @@
 package no.nav.helse
 
-import no.nav.nare.core.evaluations.Resultat.JA
-import no.nav.nare.core.evaluations.Resultat.KANSKJE
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
@@ -10,29 +7,23 @@ class YtelserTest {
 
    @Test
    fun `du kan ha rett til sykepenger om du ikke har andre ytelser`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-29")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val bostedLandISykdomsperiode = "Norge"
-      val søknadSendt = LocalDate.parse("2019-04-30")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
-
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
-
-
-      assertTrue(ytelser.evaluer(soknad).resultat == JA)
+      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), LocalDate.now(), LocalDate.now())
+      assertJa(ytelser.evaluer(soknad))
    }
 
    @Test
    fun `du kan ha rett til sykepenger om du har andre ytelser`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-28")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val bostedLandISykdomsperiode = "Sverige"
-      val søknadSendt = LocalDate.parse("2019-04-30")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
+      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", listOf("Dagpenger"), LocalDate.now(), LocalDate.now())
+      assertKanskje(ytelser.evaluer(soknad))
+   }
 
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, listOf("Dagpenger"), søknadSendt, førsteDagSøknadGjelderFor)
+   @Test
+   fun `søker har ingen ytelser dersom listen er tom`() {
+      assertJa(søkerHarAndreYtelser(emptyList()))
+   }
 
-
-      assertTrue(ytelser.evaluer(soknad).resultat == KANSKJE)
+   @Test
+   fun `søker har ytelser dersom listen ikke er tom`() {
+      assertNei(søkerHarAndreYtelser(listOf("Dagpenger")))
    }
 }

@@ -1,14 +1,12 @@
 package no.nav.helse
 
-import no.nav.nare.core.evaluations.Resultat.JA
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
 class InngangsvilkårTest {
 
    @Test
-   fun `du må oppfylle hele vilkåret`() {
+   fun `søker må oppfylle samtlige inngangsvilkår`() {
       val førsteSykdomsdag = LocalDate.parse("2019-01-29")
       val datoForAnsettelse = LocalDate.parse("2019-01-01")
       val bostedLandISykdomsperiode = "Norge"
@@ -18,6 +16,6 @@ class InngangsvilkårTest {
       val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
 
 
-      assertTrue(inngangsvilkår.evaluer(soknad).resultat == JA)
+      assertJa(inngangsvilkår.evaluer(soknad))
    }
 }

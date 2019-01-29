@@ -1,39 +1,35 @@
 package no.nav.helse
 
-import no.nav.nare.core.evaluations.Resultat
-import no.nav.nare.core.evaluations.Resultat.JA
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
 class MedlemskapTest {
 
    @Test
-   fun `du må bo i Norge nå`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-29")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
+   fun `søker oppfyller medlemskap`() {
       val bostedLandISykdomsperiode = "Norge"
+      val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
 
-      val søknadSendt = LocalDate.parse("2019-04-30")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
-
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
-
-
-      assertTrue(medlemskap.evaluer(soknad).resultat == JA)
+      assertJa(erMedlemAvFolketrygden.evaluer(soknad))
    }
 
    @Test
-   fun `du kan ikke bo i andre land nå`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-28")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val bostedLandISykdomsperiode = "Sverige"
-      val søknadSendt = LocalDate.parse("2019-04-30")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
+   fun `søker kan kanskje oppfylle medlemskap selv om han ikke bor i Norge`() {
+      val bostedLandISykdomsperiode = "Danmark"
+      val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
 
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
+      assertKanskje(erMedlemAvFolketrygden.evaluer(soknad))
+   }
 
+   @Test
+   fun `søker må bo i Norge`() {
+      assertJa(søkerBorINorge("Norge"))
+   }
 
-      assertTrue(medlemskap.evaluer(soknad).resultat == Resultat.KANSKJE)
+   @Test
+   fun `søker kan ikke bo i andre land`() {
+      assertNei(søkerBorINorge("norge"))
+      assertNei(søkerBorINorge("Noreg"))
+      assertNei(søkerBorINorge("Sverige"))
    }
 }
