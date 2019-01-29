@@ -8,13 +8,13 @@ class YtelserTest {
    @Test
    fun `du kan ha rett til sykepenger om du ikke har andre ytelser`() {
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), LocalDate.now(), LocalDate.now())
-      assertJa(ytelser.evaluer(soknad))
+      assertJa(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(soknad))
    }
 
    @Test
    fun `du kan ha rett til sykepenger om du har andre ytelser`() {
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", listOf("Dagpenger"), LocalDate.now(), LocalDate.now())
-      assertKanskje(ytelser.evaluer(soknad))
+      assertKanskje(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(soknad))
    }
 
    @Test

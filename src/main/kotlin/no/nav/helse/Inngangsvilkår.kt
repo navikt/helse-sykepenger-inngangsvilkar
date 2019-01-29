@@ -27,7 +27,7 @@ val harAndreYtelser = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker andre ytelser?",
    identitet = "") { søknad -> søkerHarAndreYtelser(søknad.ytelser) }
 
-val ytelser = ikke(harAndreYtelser).eller(kanskje)
+val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(kanskje)
 
 val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
    beskrivelse = "er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
@@ -35,7 +35,7 @@ val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
 
 val søknadSendtInnenforFrist = erSendtInnenTreMåneder eller kanskje
 
-val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og ytelser og søknadSendtInnenforFrist) eller kanskje
+val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger og søknadSendtInnenforFrist) eller kanskje
 
 fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
    if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {
