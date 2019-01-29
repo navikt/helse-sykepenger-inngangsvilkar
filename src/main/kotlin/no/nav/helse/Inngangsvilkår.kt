@@ -18,10 +18,10 @@ val harVærtIArbeidIMinstFireUker = Spesifikasjon<Søknad>(
 val harOppfyltOpptjeningstid = harVærtIArbeidIMinstFireUker eller kanskje
 
 val boddeINorgeISykdomsperioden = Spesifikasjon<Søknad>(
-   beskrivelse = "Oppholder søker seg i Norge?",
-   identitet = "§ 8-9.Opphold i Norge eller i utlandet") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
+   beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
+   identitet = "§ 2-1.Personer som er bosatt i Norge") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
 
-val erMedlemAvFolketrygden = boddeINorgeISykdomsperioden eller kanskje
+val harOppfyltMedlemskap = boddeINorgeISykdomsperioden eller kanskje
 
 val harAndreYtelser = Spesifikasjon<Søknad>(
    beskrivelse = "Har søker andre ytelser?",
@@ -35,7 +35,7 @@ val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
 
 val søknadSendtInnenforFrist = erSendtInnenTreMåneder eller kanskje
 
-val inngangsvilkår = (harOppfyltOpptjeningstid og erMedlemAvFolketrygden og ytelser og søknadSendtInnenforFrist) eller kanskje
+val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og ytelser og søknadSendtInnenforFrist) eller kanskje
 
 fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
    if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {

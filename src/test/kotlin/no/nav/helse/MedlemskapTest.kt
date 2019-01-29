@@ -10,7 +10,7 @@ class MedlemskapTest {
       val bostedLandISykdomsperiode = "Norge"
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
 
-      assertJa(erMedlemAvFolketrygden.evaluer(soknad))
+      assertJa(harOppfyltMedlemskap.evaluer(soknad))
    }
 
    @Test
@@ -18,7 +18,7 @@ class MedlemskapTest {
       val bostedLandISykdomsperiode = "Danmark"
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
 
-      assertKanskje(erMedlemAvFolketrygden.evaluer(soknad))
+      assertKanskje(harOppfyltMedlemskap.evaluer(soknad))
    }
 
    @Test
