@@ -30,12 +30,12 @@ val harAndreYtelser = Spesifikasjon<Søknad>(
 val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(kanskje)
 
 val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
-   beskrivelse = "er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-   identitet = "") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
+   beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
+   identitet = "§ 22-13.Frister for framsetting av krav – etterbetaling") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
 
-val søknadSendtInnenforFrist = erSendtInnenTreMåneder eller kanskje
+val erKravetFremsattInnenFrist = erSendtInnenTreMåneder eller kanskje
 
-val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger og søknadSendtInnenforFrist) eller kanskje
+val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger og erKravetFremsattInnenFrist) eller kanskje
 
 fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
    if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {
@@ -55,9 +55,9 @@ fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSø
    val treMånederTilbake = søknadSendt.minusMonths(3).withDayOfMonth(1)
 
    return if (treMånederTilbake <= førsteDagSøknadGjelderFor && førsteDagSøknadGjelderFor <= søknadSendt) {
-      ja("søknaden er sendt tre måneder eller mindre etter første måned i søknadsperioden")
+      ja("søknaden er sendt opptil tre måneder etter første måned i søknadsperioden")
    } else {
-      nei("søknad er sendt etter tre måneder etter første måned i søknadsperioden")
+      nei("søknaden må være sendt opptil tre måneder etter første måned i søknadsperioden")
    }
 }
 

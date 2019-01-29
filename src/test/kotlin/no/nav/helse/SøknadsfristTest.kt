@@ -11,7 +11,7 @@ class SøknadsfristTest {
       val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
 
-      assertJa(søknadSendtInnenforFrist.evaluer(soknad))
+      assertJa(erKravetFremsattInnenFrist.evaluer(soknad))
    }
 
    @Test
@@ -20,7 +20,7 @@ class SøknadsfristTest {
       val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
       val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
 
-      assertNei(søknadSendtInnenforFrist.evaluer(soknad))
+      assertNei(erKravetFremsattInnenFrist.evaluer(soknad))
    }
 
    @Test
