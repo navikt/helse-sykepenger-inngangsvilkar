@@ -1,5 +1,8 @@
-package no.nav.helse
+package no.nav.helse.sykepenger
 
+import no.nav.helse.assertJa
+import no.nav.helse.assertKanskje
+import no.nav.helse.assertNei
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 

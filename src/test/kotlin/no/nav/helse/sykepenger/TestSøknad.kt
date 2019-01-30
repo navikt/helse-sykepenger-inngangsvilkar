@@ -1,5 +1,6 @@
-package no.nav.helse
+package no.nav.helse.sykepenger
 
+import no.nav.helse.sykepenger.Søknad
 import java.time.LocalDate
 
 fun testSøknad(

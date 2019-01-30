@@ -1,4 +1,4 @@
-package no.nav.helse
+package no.nav.helse.sykepenger
 
 import no.nav.nare.core.evaluations.Evaluering
 import no.nav.nare.core.evaluations.Evaluering.Companion.ja

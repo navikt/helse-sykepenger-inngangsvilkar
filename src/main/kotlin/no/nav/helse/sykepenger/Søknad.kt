@@ -1,4 +1,4 @@
-package no.nav.helse
+package no.nav.helse.sykepenger
 
 import java.time.LocalDate
 
