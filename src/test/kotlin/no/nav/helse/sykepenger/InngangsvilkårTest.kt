@@ -13,8 +13,15 @@ class InngangsvilkårTest {
       val bostedLandISykdomsperiode = "Norge"
       val søknadSendt = LocalDate.parse("2019-04-30")
       val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
+      val alder = 35
+      val aktuellMånedsinntekt = 38000L
+      val rapportertMånedsinntekt = 400000L
+      val fastsattÅrsinntekt = aktuellMånedsinntekt * 12
+      val grunnbeløp = 96883L
+      val harVurdertInntekt = false
 
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, bostedLandISykdomsperiode, emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
+      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, alder, bostedLandISykdomsperiode, emptyList(), søknadSendt,
+         førsteDagSøknadGjelderFor, aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)
 
 
       assertJa(inngangsvilkår.evaluer(soknad))
