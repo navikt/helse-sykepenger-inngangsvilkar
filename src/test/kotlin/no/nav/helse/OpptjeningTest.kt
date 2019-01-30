@@ -7,20 +7,14 @@ class OpptjeningTest {
 
    @Test
    fun `søker oppfyller opptjeningstid`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-29")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, "", emptyList(), LocalDate.now(), LocalDate.now())
-
-      assertJa(harOppfyltOpptjeningstid.evaluer(soknad))
+      val søknad = testSøknad(førsteSykdomsdag = LocalDate.parse("2019-01-29"), datoForAnsettelse = LocalDate.parse("2019-01-01"))
+      assertJa(harOppfyltOpptjeningstid.evaluer(søknad))
    }
 
    @Test
    fun `søker kan kanskje oppfylle opptjeningstid selv om han har jobbet mindre enn 28 dager`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-28")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, "", emptyList(), LocalDate.now(), LocalDate.now())
-
-      assertKanskje(harOppfyltOpptjeningstid.evaluer(soknad))
+      val søknad = testSøknad(førsteSykdomsdag = LocalDate.parse("2019-01-28"), datoForAnsettelse = LocalDate.parse("2019-01-01"))
+      assertKanskje(harOppfyltOpptjeningstid.evaluer(søknad))
    }
 
    @Test

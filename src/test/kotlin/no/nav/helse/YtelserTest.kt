@@ -1,20 +1,19 @@
 package no.nav.helse
 
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 
 class YtelserTest {
 
    @Test
    fun `du kan ha rett til sykepenger om du ikke har andre ytelser`() {
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), LocalDate.now(), LocalDate.now())
-      assertJa(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(soknad))
+      val søknad = testSøknad(ytelser = emptyList())
+      assertJa(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(søknad))
    }
 
    @Test
    fun `du kan ha rett til sykepenger om du har andre ytelser`() {
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", listOf("Dagpenger"), LocalDate.now(), LocalDate.now())
-      assertKanskje(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(soknad))
+      val søknad = testSøknad(ytelser = listOf("Dagpenger"))
+      assertKanskje(harIngenYtelserSomIkkeKanKombineresMedSykepenger.evaluer(søknad))
    }
 
    @Test

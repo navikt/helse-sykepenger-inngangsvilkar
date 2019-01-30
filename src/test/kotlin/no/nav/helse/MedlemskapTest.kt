@@ -1,24 +1,19 @@
 package no.nav.helse
 
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 
 class MedlemskapTest {
 
    @Test
    fun `søker oppfyller medlemskap`() {
-      val bostedLandISykdomsperiode = "Norge"
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
-
-      assertJa(harOppfyltMedlemskap.evaluer(soknad))
+      val søknad = testSøknad(bostedlandISykdomsperiode = "Norge")
+      assertJa(harOppfyltMedlemskap.evaluer(søknad))
    }
 
    @Test
    fun `søker kan kanskje oppfylle medlemskap selv om han ikke bor i Norge`() {
-      val bostedLandISykdomsperiode = "Danmark"
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), bostedLandISykdomsperiode, emptyList(), LocalDate.now(), LocalDate.now())
-
-      assertKanskje(harOppfyltMedlemskap.evaluer(soknad))
+      val søknad = testSøknad(bostedlandISykdomsperiode = "Danmark")
+      assertKanskje(harOppfyltMedlemskap.evaluer(søknad))
    }
 
    @Test

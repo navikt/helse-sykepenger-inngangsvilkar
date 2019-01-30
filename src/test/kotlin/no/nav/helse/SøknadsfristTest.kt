@@ -7,20 +7,14 @@ class SøknadsfristTest {
 
    @Test
    fun `søker oppfyller krav om innsendingsfrist`() {
-      val søknadSendt = LocalDate.parse("2019-04-30")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
-
-      assertJa(erKravetFremsattInnenFrist.evaluer(soknad))
+      val søknad = testSøknad(søknadSendt = LocalDate.parse("2019-04-30"), førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29"))
+      assertJa(erKravetFremsattInnenFrist.evaluer(søknad))
    }
 
    @Test
    fun `søker oppfyller ikke krav om innsendingsfrist`() {
-      val søknadSendt = LocalDate.parse("2019-05-01")
-      val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
-      val soknad = Søknad(LocalDate.now(), LocalDate.now(), "", emptyList(), søknadSendt, førsteDagSøknadGjelderFor)
-
-      assertNei(erKravetFremsattInnenFrist.evaluer(soknad))
+      val søknad = testSøknad(søknadSendt = LocalDate.parse("2019-05-01"), førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29"))
+      assertNei(erKravetFremsattInnenFrist.evaluer(søknad))
    }
 
    @Test
