@@ -22,7 +22,7 @@ script:
   if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
      echo "Importing GPG key into keyring"
      gpg --fast-import travis/codesigning.asc
-     awk '{$1=$1+1}1' version.prop     
+     awk '{$1=$1+1}1' version.prop > version.prop.nu
      mv version.prop.nu version.prop
      mvn versions:set -DnewVersion="$(cat lov.prop).$(cat version.prop)" 
      git add version.prop pom.xml
