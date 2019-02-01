@@ -6,13 +6,12 @@
 
    <groupId>no.nav.helse.sykepenger.lovverk</groupId>
    <artifactId>sykepenger-inngangsvilkar</artifactId>
-   <version>${lov.version}.${release.version}</version>
+   <version>2018-12-20-101.1</version>
    <name>sykepenger-inngangsvilkar</name>
    <description>Regler for evaluering av inngangsvilkår for sykepenger</description>
    <url>https://github.com/navikt/helse-sykepenger-inngang</url>
 
    <properties>
-      <lov.version>2018-12-20-101</lov.version>
       <nare-version>cd24abb</nare-version>
       <kotlin.version>1.3.20</kotlin.version>
       <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
@@ -134,24 +133,6 @@
                <serverId>ossrh</serverId>
                <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>properties-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-               <execution>
-                  <phase>initialize</phase>
-                  <goals>
-                     <goal>read-project-properties</goal>
-                  </goals>
-                  <configuration>
-                     <files>
-                        <file>version.properties</file>
-                     </files>
-                  </configuration>
-               </execution>
-            </executions>
          </plugin>
       </plugins>
 
