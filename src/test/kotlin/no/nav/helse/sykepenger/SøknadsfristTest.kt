@@ -1,6 +1,7 @@
 package no.nav.helse.sykepenger
 
 import no.nav.helse.assertJa
+import no.nav.helse.assertKanskje
 import no.nav.helse.assertNei
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
@@ -16,7 +17,7 @@ class SøknadsfristTest {
    @Test
    fun `søker oppfyller ikke krav om innsendingsfrist`() {
       val søknad = testSøknad(søknadSendt = LocalDate.parse("2019-05-01"), førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29"))
-      assertNei(erKravetFremsattInnenFrist.evaluer(søknad))
+      assertKanskje(erKravetFremsattInnenFrist.evaluer(søknad))
    }
 
    @Test

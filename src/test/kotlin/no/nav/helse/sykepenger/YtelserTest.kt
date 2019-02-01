@@ -21,11 +21,11 @@ class YtelserTest {
 
    @Test
    fun `søker har ingen ytelser dersom listen er tom`() {
-      assertJa(søkerHarAndreYtelser(emptyList()))
+      assertNei(søkerHarAndreYtelser(emptyList()))
    }
 
    @Test
    fun `søker har ytelser dersom listen ikke er tom`() {
-      assertNei(søkerHarAndreYtelser(listOf("Dagpenger")))
+      assertJa(søkerHarAndreYtelser(listOf("Dagpenger")))
    }
 }
