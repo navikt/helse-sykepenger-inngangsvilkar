@@ -22,11 +22,12 @@ script:
   if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
      echo "Importing GPG key into keyring"
      gpg --fast-import travis/codesigning.asc
-     COMMIT=$(git rev-parse --short=12 HEAD)
-     VERSION="$COMMIT_SHORT"
      echo "Setting version $VERSION"
-     mvn versions:set -DnewVersion="$VERSION"
-     mvn versions:commit
+     awk -F"=" '{newVersion=$2+1; gsub(/[0-9]+/, newVersion); print}' version.properties > version.properties.nu
+     mv version.properties.nu version.properties
+     git add version.properties
+     git commit -m"bumped version automatically"
+     git push origin master
 
      echo "Running release"
      mvn --settings travis/settings.xml deploy -Prelease -DskipTests=true
