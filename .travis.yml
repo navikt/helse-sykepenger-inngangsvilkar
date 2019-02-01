@@ -16,7 +16,7 @@ script:
   if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
      echo "Importing GPG key into keyring"
      gpg --fast-import travis/codesigning.asc
-     CURRENT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exe)
+     CURRENT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
      mvn versions:set -DnewVersion="$CURRENT_VERSION.$COMMIT_SHORT"
 
      echo "Running release"
