@@ -27,7 +27,7 @@ script:
      mvn versions:set -DnewVersion="$(cat lov.prop).$(cat version.prop)" 
      git add version.prop pom.xml
      git commit -m"bumped version automatically"
-     git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-streams.git HEAD:master 
+     git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-sykepenger-inngangsvilkar.git HEAD:master 
 
      echo "Running release"
      mvn --settings travis/settings.xml deploy -Prelease -DskipTests=true
