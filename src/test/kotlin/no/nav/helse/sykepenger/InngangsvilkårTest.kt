@@ -1,13 +1,13 @@
 package no.nav.helse.sykepenger
 
 import no.nav.helse.assertJa
-import org.junit.jupiter.api.Test
 import java.time.LocalDate
+import kotlin.test.Test
 
 class InngangsvilkårTest {
 
    @Test
-   fun `søker må oppfylle samtlige inngangsvilkår`() {
+   fun `søker_må_oppfylle_samtlige_inngangsvilkår`() {
       val førsteSykdomsdag = LocalDate.parse("2019-01-29")
       val datoForAnsettelse = LocalDate.parse("2019-01-01")
       val bostedLandISykdomsperiode = "Norge"
