@@ -6,7 +6,7 @@
 
    <groupId>no.nav.helse.sykepenger.lovverk</groupId>
    <artifactId>sykepenger-inngangsvilkar</artifactId>
-   <version>2018-12-20-101.5</version>
+   <version>2018-12-20-101.6</version>
    <name>sykepenger-inngangsvilkar</name>
    <description>Regler for evaluering av inngangsvilkår for sykepenger</description>
    <url>https://github.com/navikt/helse-sykepenger-inngang</url>
