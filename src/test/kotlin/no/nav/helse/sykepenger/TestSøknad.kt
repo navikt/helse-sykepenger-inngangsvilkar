@@ -15,5 +15,5 @@ fun testSøknad(
    fastsattÅrsinntekt: Long = 0,
    grunnbeløp: Long = 0,
    harVurdertInntekt: Boolean = false
-) = Søknad(førsteSykdomsdag, datoForAnsettelse, alder, bostedlandISykdomsperiode, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
+) = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, bostedlandISykdomsperiode, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
    aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)

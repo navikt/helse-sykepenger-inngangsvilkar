@@ -8,11 +8,11 @@ import no.nav.nare.core.specifications.Spesifikasjon
 import no.nav.nare.core.specifications.ikke
 import java.time.LocalDate
 
-internal val toBeDecided = Spesifikasjon<Søknad>(
+internal val toBeDecided = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
    identitet = "Ufullstendig informasjonsgrunnlag") { søknad -> kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
 
-internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Søknad>(
+internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
    identitet = "§ 8-2 første ledd") { søknad -> søkerHarVærtIArbeid(søknad.førsteSykdomsdag, søknad.datoForAnsettelse) }
 
@@ -21,7 +21,7 @@ internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toB
    identitet = "§ 8-2"
 )
 
-internal val boddeINorgeISykdomsperioden = Spesifikasjon<Søknad>(
+internal val boddeINorgeISykdomsperioden = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
    identitet = "§ 2-1 første ledd") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
 
@@ -30,7 +30,7 @@ internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecid
    identitet = "Kapittel 2. Medlemskap"
 )
 
-internal val harAndreYtelser = Spesifikasjon<Søknad>(
+internal val harAndreYtelser = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker andre ytelser?",
    identitet = "") { søknad -> søkerHarAndreYtelser(søknad.ytelser) }
 
@@ -39,7 +39,7 @@ internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYte
    identitet = "Forenkling av andre ytelser"
 )
 
-internal val erSendtInnenTreMåneder = Spesifikasjon<Søknad>(
+internal val erSendtInnenTreMåneder = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
    identitet = "§ 22-13 tredje ledd") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
 
@@ -48,12 +48,12 @@ internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDec
    identitet = "§ 22-13"
 )
 
-internal val erSøkerForGammel = Spesifikasjon<Søknad>(
+internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
    identitet = "§ 8-3 første ledd",
    beskrivelse = "Er søker for gammel til å motta sykepenger?"
 ) { søknad -> søkerErForGammel(søknad.alder) }
 
-internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Søknad>(
+internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
    identitet = "§ 8-3 andre ledd"
 ) { søknad -> erInntektHalvpartenAvGrunnbeløpet(søknad.fastsattÅrsinntekt, søknad.grunnbeløp, søknad.harVurdertInntekt) }

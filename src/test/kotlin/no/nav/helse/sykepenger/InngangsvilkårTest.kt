@@ -20,7 +20,7 @@ class InngangsvilkårTest {
       val grunnbeløp = 96883L
       val harVurdertInntekt = false
 
-      val soknad = Søknad(førsteSykdomsdag, datoForAnsettelse, alder, bostedLandISykdomsperiode, emptyList(), søknadSendt,
+      val soknad = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, bostedLandISykdomsperiode, emptyList(), søknadSendt,
          førsteDagSøknadGjelderFor, aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)
 
 
