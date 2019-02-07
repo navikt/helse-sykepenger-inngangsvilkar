@@ -1,8 +1,8 @@
 package no.nav.helse
 
 import com.google.gson.Gson
-import no.nav.helse.sykepenger.inngangsvilkar.Vilkårsgrunnlag
-import no.nav.helse.sykepenger.inngangsvilkar.inngangsvilkår
+import no.nav.helse.sykepenger.vilkar.Vilkårsgrunnlag
+import no.nav.helse.sykepenger.vilkar.inngangsvilkar.inngangsvilkår
 import spark.Request
 import spark.Response
 import spark.Spark

@@ -1,5 +1,6 @@
-package no.nav.helse.sykepenger.inngangsvilkar
+package no.nav.helse.sykepenger.vilkar.inngangsvilkar
 
+import no.nav.helse.sykepenger.vilkar.Vilkårsgrunnlag
 import no.nav.nare.core.evaluations.Evaluering
 import no.nav.nare.core.evaluations.Evaluering.Companion.ja
 import no.nav.nare.core.evaluations.Evaluering.Companion.kanskje
@@ -10,11 +11,11 @@ import java.time.LocalDate
 
 internal val toBeDecided = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-   identitet = "Ufullstendig informasjonsgrunnlag") { søknad -> kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
+   identitet = "Ufullstendig informasjonsgrunnlag") { Evaluering.kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
 
 internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
-   identitet = "§ 8-2 første ledd") { søknad -> søkerHarVærtIArbeid(søknad.førsteSykdomsdag, søknad.datoForAnsettelse) }
+   identitet = "§ 8-2 første ledd") { vilkårsgrunnlag -> søkerHarVærtIArbeid(vilkårsgrunnlag.førsteSykdomsdag, vilkårsgrunnlag.datoForAnsettelse) }
 
 internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
    beskrivelse = "Oppfyller søker krav om opptjeningstid?",
@@ -23,7 +24,7 @@ internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toB
 
 internal val boddeINorgeISykdomsperioden = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
-   identitet = "§ 2-1 første ledd") { søknad -> søkerBorINorge(søknad.bostedlandISykdomsperiode) }
+   identitet = "§ 2-1 første ledd") { vilkårsgrunnlag -> søkerBorINorge(vilkårsgrunnlag.bostedlandISykdomsperiode) }
 
 internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecided).med(
    beskrivelse = "Oppfyller søker krav om medlemskap?",
@@ -32,7 +33,7 @@ internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecid
 
 internal val harAndreYtelser = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker andre ytelser?",
-   identitet = "") { søknad -> søkerHarAndreYtelser(søknad.ytelser) }
+   identitet = "") { vilkårsgrunnlag -> søkerHarAndreYtelser(vilkårsgrunnlag.ytelser) }
 
 internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(toBeDecided).med(
    beskrivelse = "Har søker andre ytelser som ikke kan kombineres med sykepenger?",
@@ -41,7 +42,7 @@ internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYte
 
 internal val erSendtInnenTreMåneder = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-   identitet = "§ 22-13 tredje ledd") { søknad -> søkerHarSendtSøknadInnenTreMåneder(søknad.søknadSendt, søknad.førsteDagSøknadGjelderFor) }
+   identitet = "§ 22-13 tredje ledd") { vilkårsgrunnlag -> søkerHarSendtSøknadInnenTreMåneder(vilkårsgrunnlag.søknadSendt, vilkårsgrunnlag.førsteDagSøknadGjelderFor) }
 
 internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDecided).med(
    beskrivelse = "Er kravet fremsatt innen frist?",
@@ -51,12 +52,12 @@ internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDec
 internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
    identitet = "§ 8-3 første ledd",
    beskrivelse = "Er søker for gammel til å motta sykepenger?"
-) { søknad -> søkerErForGammel(søknad.alder) }
+) { vilkårsgrunnlag -> søkerErForGammel(vilkårsgrunnlag.alder) }
 
 internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
    identitet = "§ 8-3 andre ledd"
-) { søknad -> erInntektHalvpartenAvGrunnbeløpet(søknad.fastsattÅrsinntekt, søknad.grunnbeløp, søknad.harVurdertInntekt) }
+) { vilkårsgrunnlag -> erInntektHalvpartenAvGrunnbeløpet(vilkårsgrunnlag.fastsattÅrsinntekt, vilkårsgrunnlag.grunnbeløp, vilkårsgrunnlag.harVurdertInntekt) }
 
 internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpartenAvGrunnbeløpet og ikke(erSøkerForGammel) eller toBeDecided).med(
    identitet = "§ 8-3",

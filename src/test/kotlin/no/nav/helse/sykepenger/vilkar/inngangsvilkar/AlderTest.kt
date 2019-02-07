@@ -1,9 +1,8 @@
-package no.nav.helse.sykepenger.inngangsvilkar
+package no.nav.helse.sykepenger.vilkar.inngangsvilkar
 
 import no.nav.helse.assertJa
 import no.nav.helse.assertKanskje
 import no.nav.helse.assertNei
-import no.nav.helse.sykepenger.inngangsvilkar.søkerErForGammel
 import org.junit.jupiter.api.Test
 
 class AlderTest {
