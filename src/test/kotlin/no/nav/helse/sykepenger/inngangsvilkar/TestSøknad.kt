@@ -1,5 +1,6 @@
-package no.nav.helse.sykepenger
+package no.nav.helse.sykepenger.inngangsvilkar
 
+import no.nav.helse.sykepenger.inngangsvilkar.Vilkårsgrunnlag
 import java.time.LocalDate
 
 fun testSøknad(

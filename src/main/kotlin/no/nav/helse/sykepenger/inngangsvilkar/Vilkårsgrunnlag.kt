@@ -1,4 +1,4 @@
-package no.nav.helse.sykepenger
+package no.nav.helse.sykepenger.inngangsvilkar
 
 import java.time.LocalDate
 

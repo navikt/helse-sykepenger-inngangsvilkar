@@ -1,8 +1,9 @@
-package no.nav.helse.sykepenger
+package no.nav.helse.sykepenger.inngangsvilkar
 
 import no.nav.helse.assertJa
 import no.nav.helse.assertKanskje
 import no.nav.helse.assertNei
+import no.nav.helse.sykepenger.inngangsvilkar.erInntektHalvpartenAvGrunnbeløpet
 import org.junit.jupiter.api.Test
 
 class SykepengegrunnlagTest {
