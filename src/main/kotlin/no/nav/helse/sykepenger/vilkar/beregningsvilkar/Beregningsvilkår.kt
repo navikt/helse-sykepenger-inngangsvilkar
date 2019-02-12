@@ -6,13 +6,10 @@ import no.nav.nare.core.evaluations.Evaluering.Companion.ja
 import no.nav.nare.core.evaluations.Evaluering.Companion.nei
 import no.nav.nare.core.specifications.Spesifikasjon
 
-
 internal val erDetAvvikMellomAktuellInntektOgRapportertInntekt = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er det avvik mellom aktuell inntekt og rapportert inntekt?",
    identitet = "§§ 8-29 8-30"
-) { søknad ->
-   behovForSkjønnsmessigVurderingAvInntekt(søknad.harVurdertInntekt, søknad.aktuellMånedsinntekt, søknad.rapportertMånedsinntekt)
-}
+) { behovForSkjønnsmessigVurderingAvInntekt(harVurdertInntekt, aktuellMånedsinntekt, rapportertMånedsinntekt) }
 
 val beregningsvilkår = erDetAvvikMellomAktuellInntektOgRapportertInntekt.ikke()
 
@@ -27,4 +24,3 @@ fun behovForSkjønnsmessigVurderingAvInntekt(harVurdertInntekt: Boolean, aktuell
          nei("Saksbehandler trenger ikke å vurdere inntekten")
       }
    }
-

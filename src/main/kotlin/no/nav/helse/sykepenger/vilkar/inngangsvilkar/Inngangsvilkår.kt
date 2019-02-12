@@ -15,7 +15,7 @@ internal val toBeDecided = Spesifikasjon<Vilkårsgrunnlag>(
 
 internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
-   identitet = "§ 8-2 første ledd") { vilkårsgrunnlag -> søkerHarVærtIArbeid(vilkårsgrunnlag.førsteSykdomsdag, vilkårsgrunnlag.datoForAnsettelse) }
+   identitet = "§ 8-2 første ledd") { søkerHarVærtIArbeid(førsteSykdomsdag, datoForAnsettelse) }
 
 internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
    beskrivelse = "Oppfyller søker krav om opptjeningstid?",
@@ -24,7 +24,7 @@ internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toB
 
 internal val boddeINorgeISykdomsperioden = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
-   identitet = "§ 2-1 første ledd") { vilkårsgrunnlag -> søkerBorINorge(vilkårsgrunnlag.bostedlandISykdomsperiode) }
+   identitet = "§ 2-1 første ledd") { søkerBorINorge(bostedlandISykdomsperiode) }
 
 internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecided).med(
    beskrivelse = "Oppfyller søker krav om medlemskap?",
@@ -33,7 +33,7 @@ internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecid
 
 internal val harAndreYtelser = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker andre ytelser?",
-   identitet = "") { vilkårsgrunnlag -> søkerHarAndreYtelser(vilkårsgrunnlag.ytelser) }
+   identitet = "") { søkerHarAndreYtelser(ytelser) }
 
 internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(toBeDecided).med(
    beskrivelse = "Har søker andre ytelser som ikke kan kombineres med sykepenger?",
@@ -42,7 +42,7 @@ internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYte
 
 internal val erSendtInnenTreMåneder = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-   identitet = "§ 22-13 tredje ledd") { vilkårsgrunnlag -> søkerHarSendtSøknadInnenTreMåneder(vilkårsgrunnlag.søknadSendt, vilkårsgrunnlag.førsteDagSøknadGjelderFor) }
+   identitet = "§ 22-13 tredje ledd") { søkerHarSendtSøknadInnenTreMåneder(søknadSendt, førsteDagSøknadGjelderFor) }
 
 internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDecided).med(
    beskrivelse = "Er kravet fremsatt innen frist?",
@@ -52,12 +52,12 @@ internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDec
 internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
    identitet = "§ 8-3 første ledd",
    beskrivelse = "Er søker for gammel til å motta sykepenger?"
-) { vilkårsgrunnlag -> søkerErForGammel(vilkårsgrunnlag.alder) }
+) { søkerErForGammel(alder) }
 
 internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
    identitet = "§ 8-3 andre ledd"
-) { vilkårsgrunnlag -> erInntektHalvpartenAvGrunnbeløpet(vilkårsgrunnlag.fastsattÅrsinntekt, vilkårsgrunnlag.grunnbeløp, vilkårsgrunnlag.harVurdertInntekt) }
+) { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt) }
 
 internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpartenAvGrunnbeløpet og ikke(erSøkerForGammel) eller toBeDecided).med(
    identitet = "§ 8-3",
