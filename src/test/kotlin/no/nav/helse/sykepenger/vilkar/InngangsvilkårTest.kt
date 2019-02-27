@@ -8,8 +8,7 @@ class InngangsvilkårTest {
 
    @Test
    fun `søker må oppfylle samtlige inngangsvilkår`() {
-      val førsteSykdomsdag = LocalDate.parse("2019-01-29")
-      val datoForAnsettelse = LocalDate.parse("2019-01-01")
+      val opptjeningstid = 28
       val erMedlem = true
       val søknadSendt = LocalDate.parse("2019-04-30")
       val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
@@ -17,7 +16,7 @@ class InngangsvilkårTest {
       val fastsattÅrsinntekt = 38000L * 12
       val grunnbeløp = 96883L
 
-      val soknad = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, erMedlem, emptyList(), søknadSendt,
+      val soknad = Vilkårsgrunnlag(opptjeningstid, alder, erMedlem, emptyList(), søknadSendt,
          førsteDagSøknadGjelderFor, fastsattÅrsinntekt, grunnbeløp)
 
 

@@ -14,7 +14,7 @@ internal val toBeDecided = Spesifikasjon<Vilkårsgrunnlag>(
 
 internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
-   identitet = "§ 8-2 første ledd") { søkerHarVærtIArbeid(førsteSykdomsdag, datoForAnsettelse) }
+   identitet = "§ 8-2 første ledd") { søkerHarVærtIArbeid(opptjeningstid) }
 
 internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
    beskrivelse = "Oppfyller søker krav om opptjeningstid?",
@@ -61,8 +61,8 @@ internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpar
 val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger
    og erKravetFremsattInnenFrist og tapAvPensjonsgivendeInntektOgMinsteInntekt) eller toBeDecided
 
-internal fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
-   if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {
+internal fun søkerHarVærtIArbeid(opptjeningstid: Int) =
+   if (opptjeningstid >= 28) {
       ja("søker har jobbet minst 28 dager")
    } else {
       nei("søker har jobbet mindre enn 28 dager")

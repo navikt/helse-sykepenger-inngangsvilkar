@@ -10,8 +10,7 @@ import java.time.LocalDate
 
 fun main() {
    val søknad = Vilkårsgrunnlag(
-      førsteSykdomsdag = LocalDate.now(),
-      datoForAnsettelse = LocalDate.now().minusDays(15),
+      opptjeningstid = 15,
       erMedlem = true,
       ytelser = emptyList(),
       alder = 35,

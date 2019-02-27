@@ -2,8 +2,7 @@ package no.nav.helse.sykepenger.vilkar
 
 import java.time.LocalDate
 
-data class Vilkårsgrunnlag(val førsteSykdomsdag: LocalDate,
-                           val datoForAnsettelse: LocalDate,
+data class Vilkårsgrunnlag(val opptjeningstid: Int,
                            val alder: Int,
                            val erMedlem: Boolean,
                            val ytelser: List<String>,
