@@ -51,7 +51,7 @@ internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
 internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
    identitet = "§ 8-3 andre ledd"
-) { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt) }
+) { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp) }
 
 internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpartenAvGrunnbeløpet og ikke(erSøkerForGammel) eller toBeDecided).med(
    identitet = "§ 8-3",
@@ -92,11 +92,9 @@ internal fun søkerHarAndreYtelser(ytelser: List<String>) =
       ja("har andre ytelser")
    }
 
-internal fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: Long, harVurdertInntekt: Boolean) =
+internal fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: Long) =
    if (fastsattÅrsinntekt >= 0.5 * grunnbeløp) {
       ja("Årsinntekten er minst 1/2 G")
-   } else if (!harVurdertInntekt) {
-      kanskje("Årsinntekten er mindre enn 1/2 G, saksbehandler må skjønnsmessig vurdere inntekt.")
    } else {
       nei("Årsinntekten er mindre enn 1/2 G")
    }

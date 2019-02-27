@@ -9,8 +9,5 @@ data class Vilkårsgrunnlag(val førsteSykdomsdag: LocalDate,
                            val ytelser: List<String>,
                            val søknadSendt: LocalDate,
                            val førsteDagSøknadGjelderFor: LocalDate,
-                           val aktuellMånedsinntekt: Long,
-                           val rapportertMånedsinntekt: Long,
-                           val fastsattÅrsinntekt: Long = aktuellMånedsinntekt * 12,
-                           val grunnbeløp: Long,
-                           val harVurdertInntekt: Boolean)
+                           val fastsattÅrsinntekt: Long,
+                           val grunnbeløp: Long)

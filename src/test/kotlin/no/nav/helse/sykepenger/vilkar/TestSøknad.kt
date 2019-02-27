@@ -1,6 +1,5 @@
 package no.nav.helse.sykepenger.vilkar
 
-import no.nav.helse.sykepenger.vilkar.Vilkårsgrunnlag
 import java.time.LocalDate
 
 fun testSøknad(
@@ -11,10 +10,7 @@ fun testSøknad(
    ytelser: List<String> = emptyList(),
    søknadSendt: LocalDate = LocalDate.now(),
    førsteDagSøknadGjelderFor: LocalDate = LocalDate.now(),
-   aktuellMånedsinntekt: Long = 0,
-   rapportertMånedsinntekt: Long = 0,
    fastsattÅrsinntekt: Long = 0,
-   grunnbeløp: Long = 0,
-   harVurdertInntekt: Boolean = false
+   grunnbeløp: Long = 0
 ) = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, erMedlem, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
-   aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)
+    fastsattÅrsinntekt, grunnbeløp)

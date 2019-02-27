@@ -17,10 +17,8 @@ fun main() {
       alder = 35,
       søknadSendt = LocalDate.now(),
       førsteDagSøknadGjelderFor = LocalDate.now(),
-      aktuellMånedsinntekt = 35000,
-      rapportertMånedsinntekt = 450000,
-      grunnbeløp = 96883,
-      harVurdertInntekt = false
+      fastsattÅrsinntekt = 420000,
+      grunnbeløp = 96883
    )
 
    Spark.port(8282)
