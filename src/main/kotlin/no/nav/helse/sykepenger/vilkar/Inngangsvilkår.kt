@@ -68,13 +68,6 @@ internal fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettel
       nei("søker har jobbet mindre enn 28 dager")
    }
 
-internal fun søkerBorINorge(bostedland: String) =
-   if (bostedland == "Norge") {
-      ja("Søker er bosatt i Norge.")
-   } else {
-      nei("Søker er ikke bostatt i Norge.")
-   }
-
 internal fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSøknadGjelderFor: LocalDate): Evaluering {
    val treMånederTilbake = søknadSendt.minusMonths(3).withDayOfMonth(1)
 
