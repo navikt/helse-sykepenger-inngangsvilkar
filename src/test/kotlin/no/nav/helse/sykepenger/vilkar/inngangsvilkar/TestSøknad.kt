@@ -7,7 +7,7 @@ fun testSøknad(
    førsteSykdomsdag: LocalDate = LocalDate.now(),
    datoForAnsettelse: LocalDate = LocalDate.now(),
    alder: Int = 0,
-   bostedlandISykdomsperiode: String = "",
+   erMedlem: Boolean = true,
    ytelser: List<String> = emptyList(),
    søknadSendt: LocalDate = LocalDate.now(),
    førsteDagSøknadGjelderFor: LocalDate = LocalDate.now(),
@@ -16,5 +16,5 @@ fun testSøknad(
    fastsattÅrsinntekt: Long = 0,
    grunnbeløp: Long = 0,
    harVurdertInntekt: Boolean = false
-) = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, bostedlandISykdomsperiode, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
+) = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, erMedlem, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
    aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)

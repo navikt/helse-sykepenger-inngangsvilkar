@@ -22,14 +22,9 @@ internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toB
    identitet = "§ 8-2"
 )
 
-internal val boddeINorgeISykdomsperioden = Spesifikasjon<Vilkårsgrunnlag>(
-   beskrivelse = "Bodde søker i Norge da han eller hun ble syk?",
-   identitet = "§ 2-1 første ledd") { søkerBorINorge(bostedlandISykdomsperiode) }
-
-internal val harOppfyltMedlemskap = (boddeINorgeISykdomsperioden eller toBeDecided).med(
+internal val harOppfyltMedlemskap = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Oppfyller søker krav om medlemskap?",
-   identitet = "Kapittel 2. Medlemskap"
-)
+   identitet = "Kapittel 2. Medlemskap") { medlemsskapErOppfylt(erMedlem) }
 
 internal val harAndreYtelser = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Har søker andre ytelser?",
@@ -109,7 +104,13 @@ fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: L
 
 fun søkerErForGammel(alder: Int) =
    when {
-       alder >= 70 -> ja("Det ytes ikke sykepenger til medlem som er fylt 70 år")
-       alder >= 67 -> kanskje("Medlem mellom 67 og 70 år har en begrenset sykepengerett")
-       else -> nei("Søker er yngre enn 67 år")
+      alder >= 70 -> ja("Det ytes ikke sykepenger til medlem som er fylt 70 år")
+      alder >= 67 -> kanskje("Medlem mellom 67 og 70 år har en begrenset sykepengerett")
+      else -> nei("Søker er yngre enn 67 år")
+   }
+
+fun medlemsskapErOppfylt(erMedlem: Boolean): Evaluering =
+   when (erMedlem) {
+      true -> ja("Medlemsskap er oppfylt")
+      false -> nei("Medlemsskap er ikke oppfylt")
    }

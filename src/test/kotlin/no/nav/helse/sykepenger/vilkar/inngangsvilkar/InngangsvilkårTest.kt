@@ -11,7 +11,7 @@ class InngangsvilkårTest {
    fun `søker må oppfylle samtlige inngangsvilkår`() {
       val førsteSykdomsdag = LocalDate.parse("2019-01-29")
       val datoForAnsettelse = LocalDate.parse("2019-01-01")
-      val bostedLandISykdomsperiode = "Norge"
+      val erMedlem = true
       val søknadSendt = LocalDate.parse("2019-04-30")
       val førsteDagSøknadGjelderFor = LocalDate.parse("2019-01-29")
       val alder = 35
@@ -21,7 +21,7 @@ class InngangsvilkårTest {
       val grunnbeløp = 96883L
       val harVurdertInntekt = false
 
-      val soknad = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, bostedLandISykdomsperiode, emptyList(), søknadSendt,
+      val soknad = Vilkårsgrunnlag(førsteSykdomsdag, datoForAnsettelse, alder, erMedlem, emptyList(), søknadSendt,
          førsteDagSøknadGjelderFor, aktuellMånedsinntekt, rapportertMånedsinntekt, fastsattÅrsinntekt, grunnbeløp, harVurdertInntekt)
 
 

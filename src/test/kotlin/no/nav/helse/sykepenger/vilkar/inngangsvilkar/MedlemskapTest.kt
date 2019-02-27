@@ -9,25 +9,14 @@ class MedlemskapTest {
 
    @Test
    fun `søker oppfyller medlemskap`() {
-      val søknad = testSøknad(bostedlandISykdomsperiode = "Norge")
+      val søknad = testSøknad(erMedlem = true)
       assertJa(harOppfyltMedlemskap.evaluer(søknad))
    }
 
    @Test
-   fun `søker kan kanskje oppfylle medlemskap selv om han ikke bor i Norge`() {
-      val søknad = testSøknad(bostedlandISykdomsperiode = "Danmark")
-      assertKanskje(harOppfyltMedlemskap.evaluer(søknad))
+   fun `søker får avslag om vedkommende ikke er medlem`() {
+      val søknad = testSøknad(erMedlem = false)
+      assertNei(harOppfyltMedlemskap.evaluer(søknad))
    }
 
-   @Test
-   fun `søker må bo i Norge`() {
-      assertJa(søkerBorINorge("Norge"))
-   }
-
-   @Test
-   fun `søker kan ikke bo i andre land`() {
-      assertNei(søkerBorINorge("norge"))
-      assertNei(søkerBorINorge("Noreg"))
-      assertNei(søkerBorINorge("Sverige"))
-   }
 }

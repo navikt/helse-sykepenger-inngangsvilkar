@@ -12,7 +12,7 @@ fun main() {
    val søknad = Vilkårsgrunnlag(
       førsteSykdomsdag = LocalDate.now(),
       datoForAnsettelse = LocalDate.now().minusDays(15),
-      bostedlandISykdomsperiode = "Norge",
+      erMedlem = true,
       ytelser = emptyList(),
       alder = 35,
       søknadSendt = LocalDate.now(),
