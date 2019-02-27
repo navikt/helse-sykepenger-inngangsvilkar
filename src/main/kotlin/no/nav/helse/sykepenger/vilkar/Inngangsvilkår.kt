@@ -1,6 +1,5 @@
-package no.nav.helse.sykepenger.vilkar.inngangsvilkar
+package no.nav.helse.sykepenger.vilkar
 
-import no.nav.helse.sykepenger.vilkar.Vilkårsgrunnlag
 import no.nav.nare.core.evaluations.Evaluering
 import no.nav.nare.core.evaluations.Evaluering.Companion.ja
 import no.nav.nare.core.evaluations.Evaluering.Companion.kanskje
@@ -62,21 +61,21 @@ internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpar
 val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger
    og erKravetFremsattInnenFrist og tapAvPensjonsgivendeInntektOgMinsteInntekt) eller toBeDecided
 
-fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
+internal fun søkerHarVærtIArbeid(førsteSykdomsdag: LocalDate, datoForAnsettelse: LocalDate) =
    if (førsteSykdomsdag.minusDays(28) >= datoForAnsettelse) {
       ja("søker har jobbet minst 28 dager")
    } else {
       nei("søker har jobbet mindre enn 28 dager")
    }
 
-fun søkerBorINorge(bostedland: String) =
+internal fun søkerBorINorge(bostedland: String) =
    if (bostedland == "Norge") {
       ja("Søker er bosatt i Norge.")
    } else {
       nei("Søker er ikke bostatt i Norge.")
    }
 
-fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSøknadGjelderFor: LocalDate): Evaluering {
+internal fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSøknadGjelderFor: LocalDate): Evaluering {
    val treMånederTilbake = søknadSendt.minusMonths(3).withDayOfMonth(1)
 
    return if (treMånederTilbake <= førsteDagSøknadGjelderFor && førsteDagSøknadGjelderFor <= søknadSendt) {
@@ -86,14 +85,14 @@ fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, førsteDagSø
    }
 }
 
-fun søkerHarAndreYtelser(ytelser: List<String>) =
+internal fun søkerHarAndreYtelser(ytelser: List<String>) =
    if (ytelser.isEmpty()) {
       nei("har ingen andre ytelser")
    } else {
       ja("har andre ytelser")
    }
 
-fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: Long, harVurdertInntekt: Boolean) =
+internal fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: Long, harVurdertInntekt: Boolean) =
    if (fastsattÅrsinntekt >= 0.5 * grunnbeløp) {
       ja("Årsinntekten er minst 1/2 G")
    } else if (!harVurdertInntekt) {
@@ -102,14 +101,14 @@ fun erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt: Long, grunnbeløp: L
       nei("Årsinntekten er mindre enn 1/2 G")
    }
 
-fun søkerErForGammel(alder: Int) =
+internal fun søkerErForGammel(alder: Int) =
    when {
       alder >= 70 -> ja("Det ytes ikke sykepenger til medlem som er fylt 70 år")
       alder >= 67 -> kanskje("Medlem mellom 67 og 70 år har en begrenset sykepengerett")
       else -> nei("Søker er yngre enn 67 år")
    }
 
-fun medlemsskapErOppfylt(erMedlem: Boolean): Evaluering =
+internal fun medlemsskapErOppfylt(erMedlem: Boolean): Evaluering =
    when (erMedlem) {
       true -> ja("Medlemsskap er oppfylt")
       false -> nei("Medlemsskap er ikke oppfylt")

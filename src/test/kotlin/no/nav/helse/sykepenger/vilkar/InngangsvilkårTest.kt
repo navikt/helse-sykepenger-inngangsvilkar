@@ -1,7 +1,8 @@
-package no.nav.helse.sykepenger.vilkar.inngangsvilkar
+package no.nav.helse.sykepenger.vilkar
 
 import no.nav.helse.assertJa
 import no.nav.helse.sykepenger.vilkar.Vilkårsgrunnlag
+import no.nav.helse.sykepenger.vilkar.inngangsvilkår
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
