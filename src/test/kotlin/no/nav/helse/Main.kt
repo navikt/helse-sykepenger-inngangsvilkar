@@ -16,6 +16,8 @@ fun main() {
       alder = 35,
       søknadSendt = LocalDate.now(),
       førsteDagSøknadGjelderFor = LocalDate.now(),
+      sisteDagSøknadenGjelderFor = LocalDate.now().plusWeeks(2),
+      sisteMuligeSykepengedag = LocalDate.now().plusWeeks(4),
       fastsattÅrsinntekt = 420000,
       grunnbeløp = 96883
    )

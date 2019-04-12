@@ -9,7 +9,9 @@ fun testSøknad(
    ytelser: List<String> = emptyList(),
    søknadSendt: LocalDate = LocalDate.now(),
    førsteDagSøknadGjelderFor: LocalDate = LocalDate.now(),
+   sisteDagSøknadGjelderFor: LocalDate = LocalDate.now().plusWeeks(2),
+   sisteMuligeSykepengedag: LocalDate = LocalDate.now().plusWeeks(4),
    fastsattÅrsinntekt: Long = 0,
    grunnbeløp: Long = 0
 ) = Vilkårsgrunnlag(opptjeningstid, alder, erMedlem, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
-    fastsattÅrsinntekt, grunnbeløp)
+    sisteDagSøknadGjelderFor, sisteMuligeSykepengedag, fastsattÅrsinntekt, grunnbeløp)

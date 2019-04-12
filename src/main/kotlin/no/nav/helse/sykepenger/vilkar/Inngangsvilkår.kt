@@ -43,6 +43,16 @@ internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDec
    identitet = "§ 22-13"
 )
 
+internal val erMaksAntallSykepengedagerBruktOpp = Spesifikasjon<Vilkårsgrunnlag>(
+   identitet = "§ 8-12",
+   beskrivelse = "er maks antall sykepengedager brukt?"
+) { maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor, sisteDagSøknadenGjelderFor, sisteMuligeSykepengedag) }
+
+internal val maksAntallSykepengedagerErIkkeBruktOpp = ikke(erMaksAntallSykepengedagerBruktOpp).med(
+   identitet = "§ 8-12",
+   beskrivelse = "er maks antall sykepengedager ikke brukt opp?"
+)
+
 internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
    identitet = "§ 8-3 første ledd",
    beskrivelse = "Er søker for gammel til å motta sykepenger?"
@@ -59,7 +69,7 @@ internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpar
 )
 
 val inngangsvilkår = (harOppfyltOpptjeningstid og harOppfyltMedlemskap og harIngenYtelserSomIkkeKanKombineresMedSykepenger
-   og erKravetFremsattInnenFrist og tapAvPensjonsgivendeInntektOgMinsteInntekt) eller toBeDecided
+   og erKravetFremsattInnenFrist og tapAvPensjonsgivendeInntektOgMinsteInntekt og maksAntallSykepengedagerErIkkeBruktOpp) eller toBeDecided
 
 internal fun søkerHarVærtIArbeid(opptjeningstid: Int) =
    if (opptjeningstid >= 28) {
@@ -75,6 +85,18 @@ internal fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, før
       ja("søknaden er sendt opptil tre måneder etter første måned i søknadsperioden")
    } else {
       nei("søknaden må være sendt opptil tre måneder etter første måned i søknadsperioden")
+   }
+}
+
+internal fun maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor: LocalDate, sisteDagSøknadGjelderFor: LocalDate, sisteMuligeSykepengedag : LocalDate): Evaluering {
+   return if (sisteDagSøknadGjelderFor.isBefore(sisteMuligeSykepengedag) or sisteDagSøknadGjelderFor.isEqual(sisteMuligeSykepengedag)) {
+      nei("siste mulige sykepengedag er etter siste dag søknaden gjelder for")
+   } else {
+      if (førsteDagSøknadGjelderFor.isAfter(sisteMuligeSykepengedag)) {
+         ja("siste mulige sykepengedag var før første dag søknaden gjelder for")
+      } else {
+         kanskje("siste mulige sykepengedag vil nås i søknadsperioden dersom det tas ut sykepenger for hele perioden");
+      }
    }
 }
 
