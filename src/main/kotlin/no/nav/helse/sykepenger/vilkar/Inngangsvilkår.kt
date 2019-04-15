@@ -48,10 +48,7 @@ internal val erMaksAntallSykepengedagerBruktOpp = Spesifikasjon<Vilkårsgrunnlag
    beskrivelse = "er maks antall sykepengedager brukt?"
 ) { maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor, sisteDagSøknadenGjelderFor, sisteMuligeSykepengedag) }
 
-internal val maksAntallSykepengedagerErIkkeBruktOpp = ikke(erMaksAntallSykepengedagerBruktOpp).med(
-   identitet = "§ 8-12",
-   beskrivelse = "er maks antall sykepengedager ikke brukt opp?"
-)
+internal val maksAntallSykepengedagerErIkkeBruktOpp = ikke(erMaksAntallSykepengedagerBruktOpp)
 
 internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
    identitet = "§ 8-3 første ledd",
