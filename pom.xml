@@ -24,7 +24,7 @@
       <dependency>
          <groupId>no.nav</groupId>
          <artifactId>nare</artifactId>
-         <version>dfe6569</version>
+         <version>768ae37</version>
       </dependency>
       <dependency>
          <groupId>org.jetbrains.kotlin</groupId>

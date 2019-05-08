@@ -9,59 +9,73 @@ import no.nav.nare.core.specifications.ikke
 import java.time.LocalDate
 
 internal val toBeDecided = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "Ufullstendig informasjonsgrunnlag",
    beskrivelse = "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-   identitet = "Ufullstendig informasjonsgrunnlag") { Evaluering.kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
+   implementasjon = { kanskje("Vi har ikke nok informasjon til å kunne gi et entydig svar.") }
+)
 
 internal val harVærtIArbeidIMinstFireUker = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "§ 8-2 første ledd",
    beskrivelse = "Har søker vært i arbeid i minst fire uker?",
-   identitet = "§ 8-2 første ledd") { søkerHarVærtIArbeid(opptjeningstid) }
-
-internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
-   beskrivelse = "Oppfyller søker krav om opptjeningstid?",
-   identitet = "§ 8-2"
+   implementasjon = { søkerHarVærtIArbeid(opptjeningstid) }
 )
 
 internal val harOppfyltMedlemskap = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "Kapittel 2. Medlemskap",
    beskrivelse = "Oppfyller søker krav om medlemskap?",
-   identitet = "Kapittel 2. Medlemskap") { medlemsskapErOppfylt(erMedlem) }
+   implementasjon = { medlemsskapErOppfylt(erMedlem) }
+)
 
 internal val harAndreYtelser = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "",
    beskrivelse = "Har søker andre ytelser?",
-   identitet = "") { søkerHarAndreYtelser(ytelser) }
-
-internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(toBeDecided).med(
-   beskrivelse = "Har søker andre ytelser som ikke kan kombineres med sykepenger?",
-   identitet = "Forenkling av andre ytelser"
+   implementasjon = { søkerHarAndreYtelser(ytelser) }
 )
 
 internal val erSendtInnenTreMåneder = Spesifikasjon<Vilkårsgrunnlag>(
    beskrivelse = "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-   identitet = "§ 22-13 tredje ledd") { søkerHarSendtSøknadInnenTreMåneder(søknadSendt, førsteDagSøknadGjelderFor) }
-
-internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDecided).med(
-   beskrivelse = "Er kravet fremsatt innen frist?",
-   identitet = "§ 22-13"
+   identifikator = "§ 22-13 tredje ledd",
+   implementasjon = { søkerHarSendtSøknadInnenTreMåneder(søknadSendt, førsteDagSøknadGjelderFor) }
 )
 
 internal val erMaksAntallSykepengedagerBruktOpp = Spesifikasjon<Vilkårsgrunnlag>(
-   identitet = "§ 8-12",
-   beskrivelse = "er maks antall sykepengedager brukt?"
-) { maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor, sisteDagSøknadenGjelderFor, sisteMuligeSykepengedag) }
+   identifikator = "§ 8-12",
+   beskrivelse = "er maks antall sykepengedager brukt?",
+   implementasjon = { maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor, sisteDagSøknadenGjelderFor, sisteMuligeSykepengedag) }
+)
+
+internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "§ 8-3 første ledd",
+   beskrivelse = "Er søker for gammel til å motta sykepenger?",
+   implementasjon = { søkerErForGammel(alder) }
+)
+
+internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
+   identifikator = "§ 8-3 andre ledd",
+   beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
+   implementasjon = { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp) }
+)
+
+internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
+   identifikator = "§ 8-2",
+   beskrivelse = "Oppfyller søker krav om opptjeningstid?"
+)
 
 internal val maksAntallSykepengedagerErIkkeBruktOpp = ikke(erMaksAntallSykepengedagerBruktOpp)
 
-internal val erSøkerForGammel = Spesifikasjon<Vilkårsgrunnlag>(
-   identitet = "§ 8-3 første ledd",
-   beskrivelse = "Er søker for gammel til å motta sykepenger?"
-) { søkerErForGammel(alder) }
+internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(toBeDecided).med(
+   identifikator = "Forenkling av andre ytelser",
+   beskrivelse = "Har søker andre ytelser som ikke kan kombineres med sykepenger?"
+)
 
-internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgrunnlag>(
-   beskrivelse = "Er årsinntekt minst halvparten av grunnbeløpet?",
-   identitet = "§ 8-3 andre ledd"
-) { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp) }
+internal val erKravetFremsattInnenFrist = (erSendtInnenTreMåneder eller toBeDecided).med(
+   identifikator = "§ 22-13",
+   beskrivelse = "Er kravet fremsatt innen frist?"
+
+)
 
 internal val tapAvPensjonsgivendeInntektOgMinsteInntekt = (erInntektMinstHalvpartenAvGrunnbeløpet og ikke(erSøkerForGammel) eller toBeDecided).med(
-   identitet = "§ 8-3",
+   identifikator = "§ 8-3",
    beskrivelse = ""
 )
 
@@ -79,13 +93,13 @@ internal fun søkerHarSendtSøknadInnenTreMåneder(søknadSendt: LocalDate, før
    val treMånederTilbake = søknadSendt.minusMonths(3).withDayOfMonth(1)
 
    return if (treMånederTilbake <= førsteDagSøknadGjelderFor && førsteDagSøknadGjelderFor <= søknadSendt) {
-      ja("søknaden er sendt opptil tre måneder etter første måned i søknadsperioden")
+      ja("søknaden er sendt opptil tre måneder etter førstse måned i søknadsperioden")
    } else {
       nei("søknaden må være sendt opptil tre måneder etter første måned i søknadsperioden")
    }
 }
 
-internal fun maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor: LocalDate, sisteDagSøknadGjelderFor: LocalDate, sisteMuligeSykepengedag : LocalDate): Evaluering {
+internal fun maksAntallSykepengedagerErBruktOpp(førsteDagSøknadGjelderFor: LocalDate, sisteDagSøknadGjelderFor: LocalDate, sisteMuligeSykepengedag: LocalDate): Evaluering {
    return if (sisteDagSøknadGjelderFor.isBefore(sisteMuligeSykepengedag) or sisteDagSøknadGjelderFor.isEqual(sisteMuligeSykepengedag)) {
       nei("siste mulige sykepengedag er etter siste dag søknaden gjelder for")
    } else {

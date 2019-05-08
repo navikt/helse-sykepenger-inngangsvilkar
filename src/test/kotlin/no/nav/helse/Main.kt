@@ -27,22 +27,4 @@ fun main() {
    Spark.get("/api", { _: Request, _: Response -> inngangsvilkår.evaluer(søknad) }) {
       Gson().toJson(it)
    }
-
-
-   /*HttpServer.create(InetSocketAddress(8080), 0).apply {
-
-      createContext("/api") { http ->
-         http.responseHeaders.add("Content-type", "application/json")
-         http.sendResponseHeaders(200, 0)
-         PrintWriter(http.responseBody).use { out ->
-            out.println(inngangsvilkår.evaluer(søknad).let {
-               Gson().toJson(it)
-            })
-         }
-      }
-
-      start()
-   }*/
-
-
 }
