@@ -1,8 +1,11 @@
 package no.nav.helse.sykepenger.vilkar
 
+import no.nav.helse.sykepenger.vilkar.kontrakt.InntektMedArbeidsforhold
 import java.time.LocalDate
 
-data class Vilkårsgrunnlag(val opptjeningstid: Int,
+data class Vilkårsgrunnlag(val inntekterMedArbeidsforhold: List<InntektMedArbeidsforhold>,
+                           val tidspunktForArbeidsuførhet: LocalDate,
+                           val opptjeningstid: Int,
                            val alder: Int,
                            val erMedlem: Boolean,
                            val ytelser: List<String>,
