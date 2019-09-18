@@ -6,7 +6,7 @@ on:
          - master
 
 jobs:
-   "build and release":
+   build_and_release:
       runs-on: ubuntu-latest
       steps:
          - name: Dump GitHub context
