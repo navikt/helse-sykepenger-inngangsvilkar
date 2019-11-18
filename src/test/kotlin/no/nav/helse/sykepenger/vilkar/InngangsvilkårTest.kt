@@ -2,7 +2,10 @@ package no.nav.helse.sykepenger.vilkar
 
 import no.nav.helse.assertJa
 import no.nav.helse.assertKanskje
+import no.nav.helse.sykepenger.vilkar.kontrakt.Arbeidsforhold
+import no.nav.helse.sykepenger.vilkar.kontrakt.Inntekt
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 import java.time.LocalDate
 
 class InngangsvilkårTest {
@@ -19,7 +22,15 @@ class InngangsvilkårTest {
       val fastsattÅrsinntekt = 38000L * 12
       val grunnbeløp = 96883L
 
-      val soknad = Vilkårsgrunnlag(opptjeningstid, alder, erMedlem, emptyList(), søknadSendt,
+      val soknad = Vilkårsgrunnlag(listOf(
+         Inntekt(BigDecimal(2000)) to listOf(
+            Arbeidsforhold(
+               startdato = LocalDate.now().minusDays(opptjeningstid.toLong()),
+               ferie = emptyList(),
+               ugyldigFravær = emptyList()
+            )
+         )
+      ), LocalDate.now(), opptjeningstid, alder, erMedlem, emptyList(), søknadSendt,
          førsteDagSøknadGjelderFor, sisteDagSøknadGjelderFor, sisteMuligeSykepengedag, fastsattÅrsinntekt, grunnbeløp)
 
 

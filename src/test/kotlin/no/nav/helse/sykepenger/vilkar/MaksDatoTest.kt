@@ -3,7 +3,10 @@ package no.nav.helse.sykepenger.vilkar
 import no.nav.helse.assertJa
 import no.nav.helse.assertKanskje
 import no.nav.helse.assertNei
+import no.nav.helse.sykepenger.vilkar.kontrakt.Arbeidsforhold
+import no.nav.helse.sykepenger.vilkar.kontrakt.Inntekt
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 import java.time.LocalDate
 
 class MaksDatoTest {
@@ -84,6 +87,13 @@ class MaksDatoTest {
       sisteMuligeSykepengedag: LocalDate = LocalDate.now().plusWeeks(4),
       fastsattÅrsinntekt: Long = 38000L * 12,
       grunnbeløp: Long = 96883L
-   ) = Vilkårsgrunnlag(opptjeningstid, alder, erMedlem, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
+   ) = Vilkårsgrunnlag(listOf(
+      Inntekt(BigDecimal(2000)) to listOf(
+         Arbeidsforhold(
+            startdato = LocalDate.now().minusDays(opptjeningstid.toLong()),
+            ferie = emptyList(),
+            ugyldigFravær = emptyList()
+         )
+      )), LocalDate.now(), opptjeningstid, alder, erMedlem, ytelser, søknadSendt, førsteDagSøknadGjelderFor,
       sisteDagSøknadGjelderFor, sisteMuligeSykepengedag, fastsattÅrsinntekt, grunnbeløp)
 }

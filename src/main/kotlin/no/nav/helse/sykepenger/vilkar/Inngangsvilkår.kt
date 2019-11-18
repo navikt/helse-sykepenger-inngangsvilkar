@@ -56,11 +56,6 @@ internal val erInntektMinstHalvpartenAvGrunnbeløpet = Spesifikasjon<Vilkårsgru
    implementasjon = { erInntektHalvpartenAvGrunnbeløpet(fastsattÅrsinntekt, grunnbeløp) }
 )
 
-internal val harOppfyltOpptjeningstid = (harVærtIArbeidIMinstFireUker eller toBeDecided).med(
-   identifikator = "§ 8-2",
-   beskrivelse = "Oppfyller søker krav om opptjeningstid?"
-)
-
 internal val maksAntallSykepengedagerErIkkeBruktOpp = ikke(erMaksAntallSykepengedagerBruktOpp)
 
 internal val harIngenYtelserSomIkkeKanKombineresMedSykepenger = ikke(harAndreYtelser).eller(toBeDecided).med(
